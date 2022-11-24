@@ -30,7 +30,7 @@ public class CommentController {
     }
 
     //get single comment by comment id
-    @GetMapping("comments/{commentId}")
+    @GetMapping("/comments/{commentId}")
     public ResponseEntity<CommentDto> getSingleComment(@PathVariable Integer commentId){
         return ResponseEntity.status(HttpStatus.OK).body(this.commentService.getSingleComment(commentId));
     }
