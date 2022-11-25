@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import com.blog.app.config.AppConstants;
-import com.blog.app.payloads.ImageResponse;
 import com.blog.app.payloads.PostResponse;
 import com.blog.app.services.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
