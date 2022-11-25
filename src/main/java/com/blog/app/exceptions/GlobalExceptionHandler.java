@@ -1,5 +1,6 @@
 package com.blog.app.exceptions;
 
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +36,18 @@ public class GlobalExceptionHandler {
 		
 		return new ResponseEntity<Map<String,String>>(resp, HttpStatus.BAD_REQUEST);
 	}
+
+	@ExceptionHandler(ApiException.class)
+	public ResponseEntity<ApiResponse> badCredentialsExceptionHandler(ApiException exception){
+		String message = exception.getMessage();
+		return new ResponseEntity<>(new ApiResponse(message, false),HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<ApiResponse> accessDeniedExceptionHandler(AccessDeniedException exception){
+		String message = exception.getMessage();
+		return new ResponseEntity<>(new ApiResponse(message, false),HttpStatus.FORBIDDEN);
+	}
+
 	
 	
 
