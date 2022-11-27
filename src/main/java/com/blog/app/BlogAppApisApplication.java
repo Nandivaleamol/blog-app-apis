@@ -33,22 +33,22 @@ public class BlogAppApisApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(this.passwordEncoder.encode("amol123"));
+//		System.out.println(this.passwordEncoder.encode("amol123"));
 
 		try{
 			Role role1 = new Role();
 			role1.setId(AppConstants.ADMIN_USER);
-			role1.setName("ADMIN_USER");
+			role1.setName("ROLE_ADMIN");
 
-			Role role2 = new Role();
-			role2.setId(AppConstants.NORMAL_USER);
-			role2.setName("NORMAL_USER");
+				Role role2 = new Role();
+				role2.setId(AppConstants.NORMAL_USER);
+				role2.setName("ROLE_NORMAL");
 
 			var roles = List.of(role1, role2);
 			var result = this.roleRepo.saveAll(roles);
 			result.forEach(role -> System.out.println(role.getName()));
 		}catch (Exception e){
-
+			e.printStackTrace();
 		}
 	}
 }
