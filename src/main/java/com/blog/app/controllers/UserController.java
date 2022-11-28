@@ -51,13 +51,13 @@ public class UserController {
 	
 	// GET- get all users
 	@GetMapping("/")
-	public ResponseEntity<List<UserDto>> getUser(@RequestBody UserDto userDto){
+	public ResponseEntity<List<UserDto>> getUser(){
 		return ResponseEntity.ok(this.userService.getAllUsers());
 	}
 	
 	// Get- get single user
 	@GetMapping("/{userId}")
-	public ResponseEntity<UserDto> getUser(@RequestBody UserDto userDto, @PathVariable("userId") Integer userId){
+	public ResponseEntity<UserDto> getUser(@PathVariable("userId") Integer userId){
 		return ResponseEntity.ok(this.userService.getUserById(userId));
 	}
 	

@@ -31,7 +31,6 @@ public class SwaggerConfig {
         return Arrays.asList(SecurityContext.builder().securityReferences(securityReferences()).build());
     }
 
-
     @Bean
     public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2)
