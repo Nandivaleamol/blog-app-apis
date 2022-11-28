@@ -46,9 +46,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto createUser(UserDto userDto) {
-		User user = this.dtoToUser(userDto);
-		User savedUser = this.userRepo.save(user);
-		return this.userToDto(savedUser);
+		var user = this.modelMapper.map(userDto, User.class);
+		//encoded password
+		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+		//roles
+		var role = this.roleRepo.findById(AppConstants.NORMAL_USER).get();
+		user.getRoles().add(role);
+		return this.modelMapper.map(this.userRepo.save(user), UserDto.class);
 	}
 
 	@Override
@@ -57,11 +61,11 @@ public class UserServiceImpl implements UserService {
 				.orElseThrow(() -> new ResourceNotFoundException("User", " Id ", userId));
 		user.setName(userDto.getName().strip());
 		user.setEmail(userDto.getEmail().strip());
-		user.setPassword(userDto.getPassword().strip());
+		//user.setPassword(userDto.getPassword().strip());
+		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		user.setAbout(userDto.getAbout().strip());
 		User updateUser = this.userRepo.save(user);
-		UserDto userDto1 = this.userToDto(updateUser);
-		return userDto1;
+		return this.userToDto(updateUser);
 	}
 
 	@Override
@@ -73,8 +77,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserDto> getAllUsers() {
 		List<User> users = this.userRepo.findAll();
-		List<UserDto> userDtos = users.stream().map(user-> this.userToDto(user)).collect(Collectors.toList());
-		return userDtos;
+		return users.stream().map(this::userToDto).collect(Collectors.toList());
 	}
 
 	@Override
@@ -88,8 +91,7 @@ public class UserServiceImpl implements UserService {
 	
 	// using model mapper- converting UserDto to User
 	public User dtoToUser(UserDto userDto) {
-		User user = modelMapper.map(userDto, User.class);
-		return user;
+		return modelMapper.map(userDto, User.class);
 	}
 	
 	// using model mapper- converting User to UserDto
