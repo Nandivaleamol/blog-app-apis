@@ -1,22 +1,19 @@
 package com.blog.app.services.impl;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import com.blog.app.config.AppConstants;
-import com.blog.app.entities.Role;
+import com.blog.app.entities.User;
+import com.blog.app.exceptions.ResourceNotFoundException;
+import com.blog.app.payloads.UserDto;
 import com.blog.app.repositories.RoleRepo;
+import com.blog.app.repositories.UserRepo;
+import com.blog.app.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.blog.app.entities.User;
-import com.blog.app.exceptions.ResourceNotFoundException;
-import com.blog.app.payloads.UserDto;
-import com.blog.app.repositories.UserRepo;
-import com.blog.app.services.UserService;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -64,6 +61,8 @@ public class UserServiceImpl implements UserService {
 		//user.setPassword(userDto.getPassword().strip());
 		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		user.setAbout(userDto.getAbout().strip());
+		var role = this.roleRepo.findById(AppConstants.NORMAL_USER).get();
+		user.getRoles().add(role);
 		User updateUser = this.userRepo.save(user);
 		return this.userToDto(updateUser);
 	}
