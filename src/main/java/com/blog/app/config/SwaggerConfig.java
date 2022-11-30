@@ -24,7 +24,7 @@ public class SwaggerConfig {
     }
     private List<SecurityReference> securityReferences(){
         AuthorizationScope scope = new AuthorizationScope("global","accessEverything");
-        return Arrays.asList(new SecurityReference("JWT",new AuthorizationScope[]{scope}));
+        return List.of(new SecurityReference("JWT", new AuthorizationScope[]{scope}));
     }
 
     private List<SecurityContext> securityContexts(){
@@ -39,7 +39,8 @@ public class SwaggerConfig {
                 .securitySchemes(List.of(apiKeys()))
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any()).build();
+                .paths(PathSelectors.any())
+                .build();
     }
 
     private ApiInfo getInfo(){

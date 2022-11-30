@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +22,10 @@ public class Post {
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	 private Integer postId;
 	 @Column(length = 250)
+	 @Size(max = 250,message ="Title size maximum 250 characters are allowed!!" )
 	 private String title;
 	 @Column(length = 10000)
+	 @Size(max = 10000, message = "Content size maximum 10000 characters are allowed!!")
 	 private String content;
 	 private String imageName;
 	 private Date addedDate;

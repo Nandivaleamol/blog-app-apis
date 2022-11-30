@@ -21,6 +21,7 @@ public class FileServiceImpl implements FileService {
         //changing file name
         var randomID = UUID.randomUUID().toString();
 
+        assert name != null;
         var fileName = randomID.concat(name.substring(name.lastIndexOf(".")));
 
         //full file path

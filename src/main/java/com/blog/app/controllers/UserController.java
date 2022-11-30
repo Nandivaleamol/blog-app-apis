@@ -29,17 +29,17 @@ public class UserController {
 	
 	// POST- create user
 	@PostMapping("/")
-	public ResponseEntity<UserDto> createUserDto(@Valid @RequestBody UserDto userDto){
-		UserDto createdUserDto = this.userService.createUser(userDto);
-		return new ResponseEntity<UserDto>(createdUserDto, HttpStatus.CREATED);
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
+		return new ResponseEntity<UserDto>(this.userService.createUser(userDto), HttpStatus.CREATED);
 	}
-	
-	
+
 	// PUT- update user
 	@PutMapping("/{userId}")
-	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable("userId") Integer userId){
-		UserDto updateUser = this.userService.updateUser(userDto, userId);
-		return ResponseEntity.ok(updateUser);
+	public ResponseEntity<UserDto> updateUserByUserId(
+			@Valid
+			@RequestBody UserDto userDto,
+			@PathVariable("userId") Integer userId){
+		return ResponseEntity.ok(this.userService.updateUser(userDto, userId));
 	}
 	
 	// DELETE- delete user
@@ -51,21 +51,15 @@ public class UserController {
 	
 	// GET- get all users
 	@GetMapping("/")
-	public ResponseEntity<List<UserDto>> getUser(){
+	public ResponseEntity<List<UserDto>> getAllUsers(){
 		return ResponseEntity.ok(this.userService.getAllUsers());
 	}
 	
 	// Get- get single user
 	@GetMapping("/{userId}")
-	public ResponseEntity<UserDto> getUser(@PathVariable("userId") Integer userId){
+	public ResponseEntity<UserDto> getUserByUserId(@PathVariable("userId") Integer userId){
 		return ResponseEntity.ok(this.userService.getUserById(userId));
 	}
-	
-	
-	
-	
-	
-	
 
 }
 

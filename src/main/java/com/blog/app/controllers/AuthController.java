@@ -27,7 +27,6 @@ public class AuthController {
     private UserDetailsService userDetailsService;
     @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private UserService userService;
 
@@ -43,15 +42,14 @@ public class AuthController {
     }
 
     private void authenticate(String username, String password) throws Exception {
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username,password);
+//        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username,password);
         try {
-            this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+            this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
         }catch (BadCredentialsException e){
             System.out.println("Invalid Details!!");
             throw new ApiException("Invalid username or password!!");
         }
     }
-
     // register new user
     @PostMapping("/register")
     public ResponseEntity<UserDto> registerNewUser(@RequestBody UserDto userDto){

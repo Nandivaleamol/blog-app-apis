@@ -11,7 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;import org.springframework.context.annotation.Description;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.springframework.context.annotation.Description;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,8 +31,10 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer categoryId;
 	@Column(name = "title",length = 200)
+	@Size(max = 200, message = "Category title size maximum 200 characters are allowed!!")
 	private String categoryTitle;
 	@Column(name = "description", length = 5000)
+	@Size(max = 5000,message = "Category description size maximum 5000 characters are allowed!!")
 	private String categoryDescription;
 	
 	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL, fetch = FetchType.LAZY)

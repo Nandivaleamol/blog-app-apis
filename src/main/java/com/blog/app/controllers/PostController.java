@@ -21,6 +21,7 @@ import com.blog.app.services.PostService;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/")
@@ -37,34 +38,34 @@ public class PostController {
 	
 	//create post api
 	@PostMapping(value = "/user/{userId}/category/{categoryId}/posts")
-	public ResponseEntity<PostDto> createPost(
+	public ResponseEntity<PostDto> createPostByUserIdAndCategoryId(
+			@Valid
 			@RequestBody PostDto postDto, 
 			@PathVariable Integer userId, 
 			@PathVariable Integer categoryId)
 	{
-		PostDto createPost = this.postService.createPost(postDto, userId, categoryId);
-		return new ResponseEntity<PostDto>(createPost,HttpStatus.CREATED);
+		return new ResponseEntity<PostDto>(this.postService.createPost(postDto, userId, categoryId),HttpStatus.CREATED);
 	}
 
 	//update post api
 	@PutMapping("/posts/{postId}")
-	public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable Integer postId){
-		var updatePostDto = this.postService.updatePost(postDto, postId);
-		return ResponseEntity.ok(updatePostDto);
+	public ResponseEntity<PostDto> updatePostByPostId(
+			@Valid
+			@RequestBody PostDto postDto,
+			@PathVariable Integer postId){
+		return ResponseEntity.ok(this.postService.updatePost(postDto, postId));
 	}
 	
 	//get posts by userId
 	@GetMapping(value = "/user/{userId}/posts")
 	public ResponseEntity<List<PostDto>> getPostsByUser(@PathVariable Integer userId){
-		List<PostDto> postsDtos = this.postService.getAllPostsByUser(userId);
-		return new ResponseEntity<List<PostDto>>(postsDtos, HttpStatus.OK);
+		return new ResponseEntity<List<PostDto>>(this.postService.getAllPostsByUser(userId), HttpStatus.OK);
 	}
 	
 	//get posts by categoryId
 	@GetMapping(value = "/category/{categoryId}/posts")
 	public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable Integer categoryId){
-		List<PostDto> postDos = this.postService.getAllPostsByCategory(categoryId);
-		return new ResponseEntity<List<PostDto>>(postDos, HttpStatus.OK);
+		return new ResponseEntity<List<PostDto>>(this.postService.getAllPostsByCategory(categoryId), HttpStatus.OK);
 	}
 	
 	//get all posts
@@ -76,8 +77,7 @@ public class PostController {
 			 @RequestParam(value = "sortDir",defaultValue = AppConstants.SORT_DIR,required = false) String sortDir
 			 )
 	{
-		var postResponse = this.postService.getAllPost(pageNumber, pageSize,sortBy,sortDir);
-		return new ResponseEntity<PostResponse>(postResponse,HttpStatus.OK);
+		return new ResponseEntity<PostResponse>(this.postService.getAllPost(pageNumber, pageSize,sortBy,sortDir),HttpStatus.OK);
 	 }
 	
 	//get single post by postId
@@ -97,12 +97,11 @@ public class PostController {
 	//search posts by keyword title
 	@GetMapping("/posts/search/{keyword}")
 	public ResponseEntity<List<PostDto>> searchPostByTitle(@PathVariable String keyword){
-		var postDtos = this.postService.searchPosts(keyword);
-		return new ResponseEntity<List<PostDto>>(postDtos,HttpStatus.OK);
+		return new ResponseEntity<List<PostDto>>(this.postService.searchPosts(keyword),HttpStatus.OK);
 	}
 	//uploading image by postId and image parameter
 	@PostMapping("/posts/image/{postId}")
-	public ResponseEntity<PostDto> uploadImage(
+	public ResponseEntity<PostDto> uploadImageByPostId(
 			@PathVariable Integer postId,
 			@RequestParam("image")MultipartFile image
 			) throws IOException {
@@ -115,7 +114,7 @@ public class PostController {
 
 	// serve files
 	@GetMapping(value = "/posts/image/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
-	public void downloadImage(
+	public void downloadImageByImageName(
 			@PathVariable("imageName") String imageName,
 			HttpServletResponse response
 	) throws IOException {
@@ -123,5 +122,4 @@ public class PostController {
 		response.setContentType(MediaType.IMAGE_JPEG_VALUE);
 		StreamUtils.copy(resource,response.getOutputStream());
 	}
-
 }

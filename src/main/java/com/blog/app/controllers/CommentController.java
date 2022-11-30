@@ -19,19 +19,19 @@ public class CommentController {
 
     //create comment
     @PostMapping("/posts/{postId}/comments")
-    public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto commentDto, @PathVariable Integer postId){
+    public ResponseEntity<CommentDto> createCommentsByPostId(@RequestBody CommentDto commentDto, @PathVariable Integer postId){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.commentService.createComment(commentDto,postId));
     }
 
     //delete comment
     @DeleteMapping("/comments/{commentId}")
-    public ResponseEntity<ApiResponse> deleteComment(@PathVariable Integer commentId){
+    public ResponseEntity<ApiResponse> deleteCommentByCommentId(@PathVariable Integer commentId){
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Comment is successfully deleted!!",true));
     }
 
     //get single comment by comment id
     @GetMapping("/comments/{commentId}")
-    public ResponseEntity<CommentDto> getSingleComment(@PathVariable Integer commentId){
+    public ResponseEntity<CommentDto> getSingleCommentByCommentId(@PathVariable Integer commentId){
         return ResponseEntity.status(HttpStatus.OK).body(this.commentService.getSingleComment(commentId));
     }
 
@@ -43,8 +43,7 @@ public class CommentController {
 
     //update comment by comment id
     @PutMapping("/comments/{commentId}")
-    public ResponseEntity<CommentDto> updateComment(@RequestBody CommentDto commentDto, @PathVariable Integer commentId){
+    public ResponseEntity<CommentDto> updateCommentByCommentId(@RequestBody CommentDto commentDto, @PathVariable Integer commentId){
         return ResponseEntity.status(HttpStatus.OK).body(this.commentService.updateComment(commentDto,commentId));
     }
-
 }
