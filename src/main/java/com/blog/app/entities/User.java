@@ -3,7 +3,6 @@ package com.blog.app.entities;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import javax.annotation.processing.Generated;
 import javax.persistence.*;
 
 import lombok.Getter;
