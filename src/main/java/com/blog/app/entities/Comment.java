@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.persistence.metamodel.IdentifiableType;
 import javax.validation.constraints.Size;
 
 @Entity

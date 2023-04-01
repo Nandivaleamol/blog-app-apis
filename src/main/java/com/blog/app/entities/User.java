@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +24,10 @@ public class User implements UserDetails {
 	private int id;
 	@Column(name = "user_name",nullable = false, length = 100)
 	private String name;
+	@Column(unique = true)
 	private String email;
 	private String about;
+
 	private String password;
 	
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
