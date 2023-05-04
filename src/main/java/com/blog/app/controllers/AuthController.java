@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -32,7 +34,7 @@ public class AuthController {
 
     //login api
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) throws Exception {
+    public ResponseEntity<JwtAuthResponse> createToken(@Valid @RequestBody JwtAuthRequest request) throws Exception {
         this.authenticate(request.getUsername(),request.getPassword());
         var userDetails = this.userDetailsService.loadUserByUsername(request.getUsername());
         var token = this.jwtTokenHelper.generateToken(userDetails);
@@ -52,7 +54,7 @@ public class AuthController {
     }
     // register new user
     @PostMapping("/register")
-    public ResponseEntity<UserDto> registerNewUser(@RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> registerNewUser(@Valid @RequestBody UserDto userDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.registerNewUser(userDto));
     }
 
